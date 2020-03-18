@@ -24,6 +24,8 @@ module CIFAR10
 
         download
 
+    @deprecate convert2features reshape
+
     const DEPNAME = "CIFAR10"
     const NCHUNKS = 5
 

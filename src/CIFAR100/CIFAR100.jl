@@ -24,6 +24,9 @@ module CIFAR100
 
         download
 
+    @deprecate convert2features reshape
+
+
     const DEPNAME = "CIFAR100"
     const TRAINSET_FILENAME = joinpath("cifar-100-binary", "train.bin")
     const TESTSET_FILENAME  = joinpath("cifar-100-binary", "test.bin")

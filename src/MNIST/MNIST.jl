@@ -44,6 +44,8 @@ module MNIST
 
         download
 
+    @deprecate convert2features reshape
+
     const DEPNAME = "MNIST"
     const TRAINIMAGES = "train-images-idx3-ubyte.gz"
     const TRAINLABELS = "train-labels-idx1-ubyte.gz"

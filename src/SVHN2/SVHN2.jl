@@ -52,6 +52,9 @@ module SVHN2
 
         download
 
+    @deprecate convert2features reshape
+
+
     const DEPNAME = "SVHN2"
     const TRAINDATA = "train_32x32.mat"
     const TESTDATA  = "test_32x32.mat"

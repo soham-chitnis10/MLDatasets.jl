@@ -62,22 +62,6 @@ else
         # Make sure other integer types work as indicies
         @test SVHN2.testtensor(0xBAE) == SVHN2.testtensor(2990)
 
-        # @test reinterpret(UInt8, X_train)[11:13, 12:14, 1, 1] == [
-        #     0x5a  0x5c  0x5b
-        #     0x5c  0x5b  0x5d
-        #     0x5d  0x57  0x59
-        # ]
-        # @test reinterpret(UInt8, X_test)[11:13, 12:14, 1, 1] == [
-        #     0x28  0x2f  0x33
-        #     0x2e  0x38  0x3b
-        #     0x2d  0x37  0x3b
-        # ]
-        # @test reinterpret(UInt8, X_extra)[11:13, 12:14, 1, 1] == [
-        #     0x51  0x51  0x50
-        #     0x53  0x4e  0x4c
-        #     0x52  0x4c  0x49
-        # ]
-
         # These tests check if the functions return internaly
         # consistent results for different parameters (e.g. index
         # as int or as vector). That means no matter how you
