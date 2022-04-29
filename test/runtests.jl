@@ -1,6 +1,7 @@
 using Test
 using MLDatasets
 using MLDatasets: SupervisedDataset, UnsupervisedDataset, AbstractDataset
+using MLDatasets: Graph
 using FileIO
 using DataDeps
 using DataFrames, CSV, Tables
@@ -16,40 +17,39 @@ ENV["DATADEPS_ALWAYS_ACCEPT"] = true
 
 include("test_utils.jl")
 
-# we comment out deprecated test
 dataset_tests = [
-    ### misc
-    "datasets_misc/misc.jl",
-    # "datasets_misc/deprecated_misc.jl",
-    #### vision
-    "datasets_vision/emnist.jl",
-    "datasets_vision/fashion_mnist.jl",
-    "datasets_vision/mnist.jl",
-    # "datasets_vision/deprecated_fashion_mnist.jl",
-    # "datasets_vision/deprecated_mnist.jl",
-    #### graphs    
-    "datasets_graph/deprecated_citeseer.jl",
-    "datasets_graph/deprecated_cora.jl",
-    "datasets_graph/deprecated_pubmed.jl",
-    "datasets_graph/deprecated_tudataset.jl",
-    "datasets_graph/deprecated_polblogs.jl",
-    "datasets_graph/deprecated_karateclub.jl",
-    #### text
-    "datasets_text/text.jl",
-    # "datasets_text/deprecated_text.jl",
+    "datasets/graphs.jl",
+    "datasets/misc.jl",
+    "datasets/vision/emnist.jl",
+    "datasets/vision/fashion_mnist.jl",
+    "datasets/vision/mnist.jl",
+    "datasets/text.jl",
 ]
 
 no_ci_dataset_tests = [
-    ## vision
-    "datasets_vision/cifar10.jl",
-    "datasets_vision/cifar100.jl",
-    "datasets_vision/svhn2.jl",
-    # "datasets_vision/deprecated_cifar10.jl",
-    # "datasets_vision/deprecated_cifar100.jl",
-    # "datasets_vision/deprecated_svhn2.jl", # NOT OK
+    "datasets/graphs_no_ci.jl",
+    "datasets/vision/cifar10.jl",
+    "datasets/vision/cifar100.jl",
+    "datasets/vision/svhn2.jl",
     ]
 
 @assert isempty(intersect(dataset_tests, no_ci_dataset_tests))
+
+deprecated_interface = [
+    # "datasets/vision/deprecated_fashion_mnist.jl",
+    # "datasets/vision/deprecated_mnist.jl",
+    # "datasets/vision/deprecated_cifar10.jl",
+    # "datasets/vision/deprecated_cifar100.jl",
+    # "datasets/vision/deprecated_svhn2.jl", # NOT OK
+    # "datasets/graphs/deprecated_citeseer.jl",
+    # "datasets/graphs/deprecated_cora.jl",
+    # "datasets/graphs/deprecated_pubmed.jl",
+    # "datasets/graphs/deprecated_tudataset.jl",
+    # "datasets/graphs/deprecated_polblogs.jl",
+    # "datasets/graphs/deprecated_karateclub.jl",
+    # "datasets/text_deprecated.jl",
+    # "datasets/misc_deprecated.jl",
+]
 
 container_tests = [
     "containers/filedataset.jl",
@@ -69,9 +69,16 @@ container_tests = [
         @testset "$(split(t,"/")[end])" for t in no_ci_dataset_tests
             include(t)
         end
-    else 
+    else
         @info "CI detected: skipping tests on large datasets"
     end    
+
+    if !isempty(deprecated_interface)
+        @info "Testing deprecated dataset interface"
+        @testset "$(split(t,"/")[end])" for t in deprecated_interface
+            include(t)
+        end
+    end
 end
 
 @testset "Containers" begin
